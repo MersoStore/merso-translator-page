@@ -1,0 +1,1237 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="description" content="Merso Translator — تطبيق أندرويد مجاني بيترجم ترجمات وحوارات ألعاب PS5 الإنجليزية للعربي على شاشة التلفزيون وانت بتلعب. بيشتغل على الـ PS5 الأونلاين والمعدّل — ريموت بلاي وكاميرا، من غير اشتراك." />
+    <link rel="icon" href="data:," />
+    <title>Merso Translator — العبها بالعربي | تطبيق ترجمة ألعاب PS5</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+    <style>
+      :root{
+        --bg:#06070b;
+        --bg-2:#0a0d15;
+        --card:#10141f;
+        --card-2:#141927;
+        --line:rgba(255,255,255,.09);
+        --txt:#f5f7fc;
+        --mut:#9aa5bb;
+        --mut-2:#6d7790;
+        --red:#e8262d;
+        --red-2:#ff4046;
+        --blue:#2f7bff;
+        --blue-2:#57a0ff;
+        --green:#2fbf71;
+        --radius:20px;
+        --font:"Cairo",system-ui,"Segoe UI",Tahoma,sans-serif;
+      }
+      *{ box-sizing:border-box; }
+      html{ scroll-behavior:smooth; }
+      body{
+        margin:0;
+        background:var(--bg);
+        color:var(--txt);
+        font-family:var(--font);
+        line-height:1.75;
+        overflow-x:hidden;
+      }
+      img{ max-width:100%; }
+      a{ color:inherit; }
+      button, [role="button"], summary{ min-height:2.75rem; }
+      .wrap{ width:min(1140px,100% - 2.5rem); margin-inline:auto; }
+      .ltr{ direction:ltr; unicode-bidi:isolate; }
+
+      /* ---------- backdrop ---------- */
+      .backdrop{
+        position:fixed; inset:0; z-index:-1; pointer-events:none;
+        background:
+          radial-gradient(720px 480px at 88% -6%, rgba(232,38,45,.16), transparent 62%),
+          radial-gradient(760px 520px at 6% 4%, rgba(47,123,255,.13), transparent 62%),
+          radial-gradient(900px 700px at 50% 115%, rgba(47,123,255,.07), transparent 60%),
+          linear-gradient(180deg,#070910 0%, var(--bg) 340px);
+      }
+
+      /* ---------- nav ---------- */
+      header{
+        position:sticky; top:.75rem; z-index:50;
+        width:min(1140px,100% - 2.5rem); margin:.75rem auto 0;
+      }
+      .nav{
+        display:flex; align-items:center; gap:1rem; flex-wrap:wrap;
+        background:rgba(13,16,25,.78);
+        border:1px solid var(--line);
+        border-radius:18px;
+        padding:.55rem .9rem;
+        backdrop-filter:blur(14px);
+        -webkit-backdrop-filter:blur(14px);
+      }
+      .brand{ display:flex; align-items:center; gap:.65rem; text-decoration:none; }
+      .brand .mark{
+        width:44px; height:44px; border-radius:14px; flex:none;
+        background:linear-gradient(150deg,var(--red-2),var(--red) 55%,#8f1218);
+        display:flex; align-items:center; justify-content:center;
+        box-shadow:0 8px 20px -8px rgba(232,38,45,.7);
+      }
+      .brand b{ font-size:1.06rem; font-weight:900; line-height:1.15; display:block; }
+      .brand span.sub{ font-size:.74rem; color:var(--mut); line-height:1.2; display:block; font-weight:600; }
+      .nav-links{ display:flex; gap:.25rem; margin-inline-start:auto; flex-wrap:wrap; }
+      .nav-links a{
+        text-decoration:none; font-weight:700; font-size:.95rem; color:var(--mut);
+        padding:.5rem .8rem; border-radius:10px; min-height:2.75rem; display:inline-flex; align-items:center; gap:.45rem;
+      }
+      .nav-links a:hover{ color:var(--txt); background:rgba(255,255,255,.06); }
+      .nav-links a.active{ color:var(--txt); background:rgba(255,255,255,.09); }
+      .nav-links a.dl-tab{
+        background:linear-gradient(180deg,var(--red-2),var(--red)); color:#fff; font-weight:800;
+        box-shadow:0 8px 20px -8px rgba(232,38,45,.65);
+      }
+      .nav-links a.dl-tab:hover{ background:linear-gradient(180deg,#ff5055,#f02d33); color:#fff; }
+      section[id]{ scroll-margin-top:7.5rem; }
+      .btn{
+        display:inline-flex; align-items:center; justify-content:center; gap:.55rem;
+        font-family:var(--font); font-weight:800; text-decoration:none; cursor:pointer;
+        border-radius:14px; border:1px solid transparent;
+        padding:.7rem 1.35rem; font-size:1rem; min-height:3rem;
+        transition:transform .15s ease, background .15s ease, border-color .15s ease;
+      }
+      .btn:active{ transform:scale(.98); }
+      .btn-red{ background:linear-gradient(180deg,var(--red-2),var(--red)); color:#fff; box-shadow:0 10px 26px -10px rgba(232,38,45,.65); }
+      .btn-red:hover{ background:linear-gradient(180deg,#ff5055,#f02d33); }
+      .btn-ghost{ background:rgba(255,255,255,.05); border-color:var(--line); color:var(--txt); }
+      .btn-ghost:hover{ background:rgba(255,255,255,.1); }
+      .btn-sm{ padding:.5rem 1.05rem; min-height:2.75rem; font-size:.95rem; border-radius:12px; }
+      .btn svg{ flex:none; }
+
+      /* ---------- hero ---------- */
+      .hero{ padding:3.4rem 0 2.6rem; }
+      .hero-grid{ display:grid; grid-template-columns:1.08fr .92fr; gap:2.5rem; align-items:center; }
+      .pill{
+        display:inline-flex; align-items:center; gap:.5rem;
+        border:1px solid rgba(47,191,113,.45); color:#7fe6ae;
+        background:rgba(47,191,113,.09);
+        font-size:.85rem; font-weight:800; border-radius:999px; padding:.32rem .9rem;
+      }
+      .pill i{ width:8px; height:8px; border-radius:50%; background:var(--green); box-shadow:0 0 0 4px rgba(47,191,113,.18); }
+      h1{ font-size:clamp(2.5rem,6vw,4.3rem); font-weight:900; line-height:1.18; margin:1.1rem 0 .4rem; }
+      h1 .accent{ color:var(--red-2); display:block; }
+      h1 .en{ direction:ltr; unicode-bidi:isolate; display:inline-block; }
+      .hero p.lead{ color:var(--mut); font-size:1.13rem; margin:.8rem 0 1.7rem; max-width:34rem; }
+      .hero-cta{ display:flex; flex-wrap:wrap; gap:.8rem; align-items:center; }
+      .hero-cta .size{ font-size:.82rem; font-weight:700; opacity:.85; }
+      .hero-meta{ display:flex; flex-wrap:wrap; gap:.4rem 1.15rem; color:var(--mut); font-size:.92rem; font-weight:600; margin-top:1.15rem; }
+      .hero-meta b{ color:var(--txt); }
+      .stats{ display:grid; grid-template-columns:repeat(3,1fr); gap:.8rem; margin-top:2rem; max-width:34rem; }
+      .stat{
+        background:rgba(16,20,31,.75); border:1px solid var(--line); border-radius:16px;
+        padding:1rem .6rem .8rem; text-align:center;
+      }
+      .stat b{ font-size:1.65rem; font-weight:900; display:block; line-height:1.1; }
+      .stat b em{ font-style:normal; color:var(--red-2); }
+      .stat span{ color:var(--mut); font-size:.85rem; font-weight:700; }
+      .dl-note{ min-height:1.6rem; color:#ffb3b5; font-weight:700; font-size:.92rem; margin:.7rem 0 0; }
+
+      /* ---------- phone mockup ---------- */
+      .stage{ display:flex; justify-content:center; perspective:1200px; }
+      .phone{
+        width:min(302px,80vw); aspect-ratio:9/19.1; flex:none;
+        background:#05060a; border:1px solid #2a3042; border-radius:46px;
+        padding:11px; box-shadow:0 40px 80px -30px rgba(0,0,0,.85), 0 0 0 6px #0b0e16;
+        transform:rotate(-4deg);
+      }
+      .phone.flat{ transform:none; width:min(272px,74vw); }
+      .screen{
+        height:100%; border-radius:36px; overflow:hidden; position:relative;
+        background:linear-gradient(180deg,#0d1120,#090b13);
+        display:flex; flex-direction:column;
+      }
+      .notch{ position:absolute; top:9px; left:50%; transform:translateX(-50%); width:86px; height:20px; background:#05060a; border-radius:999px; z-index:5; }
+      .scr-head{
+        display:flex; align-items:center; gap:.5rem; padding:2.35rem .95rem .6rem;
+      }
+      .scr-head .mark{
+        width:30px; height:30px; border-radius:9px; flex:none;
+        background:linear-gradient(150deg,var(--red-2),var(--red) 55%,#8f1218);
+        display:flex; align-items:center; justify-content:center;
+      }
+      .scr-head b{ font-size:.86rem; font-weight:900; line-height:1.2; }
+      .scr-head small{ display:block; color:var(--mut); font-size:.66rem; font-weight:700; }
+      .live-dot{ margin-inline-start:auto; display:inline-flex; align-items:center; gap:.35rem; font-size:.66rem; font-weight:800; color:#7fe6ae; }
+      .live-dot i{ width:7px; height:7px; border-radius:50%; background:var(--green); animation:pulse 1.6s infinite; }
+      @keyframes pulse{ 0%,100%{ box-shadow:0 0 0 0 rgba(47,191,113,.5);} 50%{ box-shadow:0 0 0 6px rgba(47,191,113,0);} }
+
+      .scene{
+        margin:.35rem .8rem 0; border-radius:16px; position:relative; overflow:hidden; flex:none;
+        height:44%; min-height:180px;
+        background:
+          radial-gradient(120% 90% at 70% 0%, rgba(255,170,60,.5), transparent 55%),
+          radial-gradient(100% 100% at 15% 100%, rgba(47,123,255,.5), transparent 55%),
+          linear-gradient(160deg,#3a2b18 0%, #1c2438 48%, #0c1220 100%);
+      }
+      .scene::after{
+        content:""; position:absolute; inset:auto 0 0 0; height:44%;
+        background:linear-gradient(180deg,transparent, rgba(3,4,8,.55));
+      }
+      .scene .sun{ position:absolute; top:16%; inset-inline-start:16%; width:52px; height:52px; border-radius:50%; background:radial-gradient(circle,#ffd98a,#ff9d3c 70%, transparent 72%); opacity:.9; }
+      .scene .ridge{ position:absolute; bottom:26%; left:0; right:0; height:56px; background:linear-gradient(180deg,#232c47,#141b2e); clip-path:polygon(0 62%,14% 30%,30% 55%,46% 18%,63% 50%,78% 26%,100% 58%,100% 100%,0 100%); }
+      .cap{
+        position:absolute; z-index:2; left:8%; right:8%; bottom:7%;
+        text-align:center;
+      }
+      .cap .en-line{ display:block; color:rgba(255,255,255,.75); font-size:.68rem; font-weight:700; direction:ltr; margin-bottom:.3rem; text-shadow:0 1px 6px rgba(0,0,0,.8); }
+      .cap .ar-line{
+        display:inline-block; background:rgba(0,0,0,.72); color:#fff; font-weight:800;
+        font-size:.94rem; line-height:1.5; padding:.28rem .8rem; border-radius:9px;
+        transition:opacity .35s ease;
+      }
+      .cap.fading .ar-line, .cap.fading .en-line{ opacity:0; }
+      .cap .en-line{ transition:opacity .35s ease; }
+
+      .mode-cards{ display:grid; grid-template-columns:1fr 1fr; gap:.55rem; padding:.8rem .8rem 0; }
+      .mode-card{
+        background:var(--card-2); border:1px solid var(--line); border-radius:14px; padding:.6rem .55rem; text-align:center;
+      }
+      .mode-card.on{ border-color:rgba(232,38,45,.6); background:rgba(232,38,45,.1); }
+      .mode-card svg{ display:block; margin:0 auto .25rem; }
+      .mode-card b{ font-size:.74rem; font-weight:800; display:block; line-height:1.35; }
+      .mode-card small{ color:var(--mut); font-size:.62rem; font-weight:700; }
+      .status-row{ display:flex; gap:.45rem; padding:.7rem .8rem 0; flex-wrap:wrap; }
+      .chip{
+        font-size:.64rem; font-weight:800; border-radius:999px; padding:.18rem .6rem;
+        background:rgba(47,191,113,.12); color:#7fe6ae; border:1px solid rgba(47,191,113,.35);
+      }
+      .chip.blue{ background:rgba(47,123,255,.12); color:#9cc2ff; border-color:rgba(47,123,255,.35); }
+      .tabbar{
+        margin-top:auto; display:flex; justify-content:space-around; align-items:center;
+        border-top:1px solid var(--line); padding:.5rem .3rem .85rem; background:rgba(10,12,20,.9);
+      }
+      .tabbar span{ font-size:.6rem; font-weight:800; color:var(--mut-2); display:flex; flex-direction:column; align-items:center; gap:.15rem; }
+      .tabbar span.on{ color:var(--red-2); }
+
+      /* ---------- sections ---------- */
+      section{ padding:3.2rem 0; }
+      .sec-head{ text-align:center; max-width:40rem; margin:0 auto 2.6rem; }
+      .sec-head h2{ font-size:clamp(1.8rem,4vw,2.6rem); font-weight:900; margin:0 0 .4rem; line-height:1.3; }
+      .sec-head p{ color:var(--mut); margin:0; font-size:1.05rem; }
+
+      .feature{ display:grid; grid-template-columns:1fr 1fr; gap:3rem; align-items:center; padding:2.4rem 0; }
+      .feature + .feature{ border-top:1px solid rgba(255,255,255,.05); }
+      .kicker{
+        display:inline-flex; align-items:center; gap:.45rem; font-size:.83rem; font-weight:800;
+        color:#9cc2ff; background:rgba(47,123,255,.1); border:1px solid rgba(47,123,255,.3);
+        padding:.25rem .85rem; border-radius:999px; margin-bottom:1rem;
+      }
+      .kicker i{ width:7px; height:7px; border-radius:50%; background:var(--blue-2); }
+      .kicker.red{ color:#ffb3b5; background:rgba(232,38,45,.1); border-color:rgba(232,38,45,.35); }
+      .kicker.red i{ background:var(--red-2); }
+      .feature h3{ font-size:clamp(1.55rem,3.4vw,2.15rem); font-weight:900; line-height:1.35; margin:0 0 .7rem; }
+      .feature h3 .accent{ color:var(--red-2); display:block; }
+      .feature h3 .accent-b{ color:var(--blue-2); display:block; }
+      .feature p{ color:var(--mut); margin:0 0 1.2rem; font-size:1.03rem; }
+      .ticks{ list-style:none; margin:0; padding:0; display:grid; gap:.85rem; }
+      .ticks li{ display:flex; gap:.7rem; align-items:flex-start; font-weight:600; color:#dbe1ee; }
+      .ticks .tk{
+        flex:none; width:24px; height:24px; margin-top:.28rem; border-radius:50%;
+        background:rgba(47,191,113,.15); border:1px solid rgba(47,191,113,.4);
+        display:inline-flex; align-items:center; justify-content:center;
+      }
+
+      /* TV mockup */
+      .tv-stage{ display:flex; flex-direction:column; align-items:center; }
+      .tv{
+        width:min(480px,100%); aspect-ratio:16/9.4; border-radius:18px; padding:9px;
+        background:#05060a; border:1px solid #2a3042; box-shadow:0 34px 70px -28px rgba(0,0,0,.85);
+      }
+      .tv .screen{ border-radius:11px; }
+      .tv-scene{
+        height:100%; position:relative; overflow:hidden;
+        background:
+          radial-gradient(110% 90% at 78% 0%, rgba(120,80,255,.35), transparent 55%),
+          radial-gradient(100% 110% at 10% 105%, rgba(232,38,45,.35), transparent 55%),
+          linear-gradient(155deg,#241a33 0%, #131c33 52%, #0a0f1e 100%);
+      }
+      .tv-scene .ridge{ position:absolute; bottom:30%; left:0; right:0; height:70px; background:linear-gradient(180deg,#1d2745,#101828); clip-path:polygon(0 55%,18% 22%,36% 52%,55% 12%,72% 46%,88% 24%,100% 52%,100% 100%,0 100%); }
+      .tv-cap{ position:absolute; left:6%; right:6%; bottom:6.5%; text-align:center; z-index:2; }
+      .tv-cap .en-line{ display:block; color:rgba(255,255,255,.72); font-size:.72rem; font-weight:700; direction:ltr; margin-bottom:.35rem; text-shadow:0 1px 6px rgba(0,0,0,.85); }
+      .tv-cap .ar-line{ display:inline-block; background:rgba(0,0,0,.74); color:#fff; font-weight:800; font-size:clamp(.95rem,2.6vw,1.2rem); padding:.35rem 1rem; border-radius:10px; }
+      .tv-stand{ width:110px; height:12px; background:#141926; border-radius:0 0 10px 10px; margin-top:0; clip-path:polygon(18% 0,82% 0,100% 100%,0 100%); }
+      .tv-base{ width:210px; height:7px; background:#141926; border-radius:99px; margin-top:3px; }
+      .style-chips{ display:flex; gap:.5rem; flex-wrap:wrap; justify-content:center; margin-top:1.1rem; }
+      .style-chips span{ font-size:.8rem; font-weight:800; color:var(--mut); border:1px solid var(--line); background:var(--card); border-radius:999px; padding:.3rem .85rem; }
+      .style-chips span b{ color:var(--txt); }
+
+      /* camera mockup bits */
+      .cam-view{ margin:.35rem .8rem 0; border-radius:16px; position:relative; overflow:hidden; height:52%; min-height:210px; background:linear-gradient(160deg,#101623,#0a0e18); border:1px solid var(--line); }
+      .cam-tv{ position:absolute; top:12%; left:10%; right:10%; height:52%; border:2px solid #39415a; border-radius:8px; background:linear-gradient(150deg,#2a2140,#141d33 60%,#0b1120); overflow:hidden; }
+      .cam-tv .tv-cap .ar-line{ font-size:.72rem; padding:.18rem .55rem; }
+      .cam-tv .tv-cap .en-line{ font-size:.55rem; margin-bottom:.2rem; }
+      .vf{ position:absolute; width:22px; height:22px; border:3px solid var(--red-2); }
+      .vf.tl{ top:6%; inset-inline-start:5%; border-inline-end:0; border-bottom:0; border-start-start-radius:6px; }
+      .vf.tr{ top:6%; inset-inline-end:5%; border-inline-start:0; border-bottom:0; border-start-end-radius:6px; }
+      .vf.bl{ bottom:6%; inset-inline-start:5%; border-inline-end:0; border-top:0; border-end-start-radius:6px; }
+      .vf.br{ bottom:6%; inset-inline-end:5%; border-inline-start:0; border-top:0; border-end-end-radius:6px; }
+      .cam-cap{ margin:.7rem .8rem 0; background:rgba(0,0,0,.6); border:1px solid var(--line); border-radius:12px; padding:.5rem .7rem; text-align:center; font-weight:800; font-size:.85rem; }
+      .cam-tools{ display:flex; justify-content:center; gap:1.1rem; padding:.65rem 0 0; color:var(--mut); }
+      .cam-tools span{ display:flex; flex-direction:column; align-items:center; gap:.1rem; font-size:.58rem; font-weight:800; }
+
+      /* account mockup bits */
+      .acct{ margin:.4rem .8rem 0; display:grid; gap:.55rem; }
+      .acct-row{ display:flex; align-items:center; gap:.6rem; background:var(--card-2); border:1px solid var(--line); border-radius:13px; padding:.55rem .7rem; }
+      .acct-row.on{ border-color:rgba(47,191,113,.5); }
+      .avatar{ width:34px; height:34px; border-radius:50%; flex:none; background:linear-gradient(140deg,var(--blue),#173a75); display:flex; align-items:center; justify-content:center; font-weight:900; font-size:.85rem; color:#fff; }
+      .acct-row b{ font-size:.8rem; font-weight:800; display:block; line-height:1.3; }
+      .acct-row small{ color:var(--mut); font-size:.64rem; font-weight:700; }
+      .acct-row .ok{ margin-inline-start:auto; }
+      .fake-btn{ margin:.75rem .8rem 0; background:linear-gradient(180deg,var(--red-2),var(--red)); color:#fff; text-align:center; font-weight:900; font-size:.85rem; border-radius:12px; padding:.6rem; }
+      .mini-note{ margin:.6rem .95rem 0; color:var(--mut); font-size:.66rem; font-weight:700; text-align:center; }
+
+      /* crop editor mockup bits */
+      .crop-view{ margin:.35rem .8rem 0; border-radius:16px; position:relative; overflow:hidden; height:48%; min-height:200px; background:linear-gradient(165deg,#131a2c,#0a0e18); border:1px solid var(--line); }
+      .crop-view .lines{ position:absolute; left:9%; right:9%; bottom:24%; color:rgba(255,255,255,.55); font-size:.6rem; font-weight:700; direction:ltr; text-align:center; }
+      .crop-frame{ position:absolute; left:7%; right:7%; bottom:7%; height:32%; border:2px solid var(--red-2); border-radius:8px; background:rgba(232,38,45,.07); }
+      .crop-frame::before,.crop-frame::after{ content:""; position:absolute; width:13px; height:13px; background:var(--red-2); border-radius:4px; }
+      .crop-frame::before{ top:-7px; inset-inline-start:-7px; }
+      .crop-frame::after{ bottom:-7px; inset-inline-end:-7px; }
+      .crop-frame span{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:.78rem; color:#fff; text-shadow:0 1px 5px rgba(0,0,0,.7); }
+      .sliders{ padding:.85rem .95rem 0; display:grid; gap:.6rem; }
+      .slider{ display:flex; align-items:center; gap:.6rem; font-size:.66rem; font-weight:800; color:var(--mut); }
+      .slider .track{ flex:1; height:6px; border-radius:99px; background:#232a3f; position:relative; }
+      .slider .fill{ position:absolute; top:0; bottom:0; inset-inline-start:0; border-radius:99px; background:var(--blue); }
+      .slider .knob{ position:absolute; top:50%; width:15px; height:15px; border-radius:50%; background:#fff; transform:translate(50%,-50%); box-shadow:0 2px 6px rgba(0,0,0,.5); }
+
+      /* ---------- also grid ---------- */
+      .also{ display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; }
+      .also-card{ background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:1.35rem 1.25rem; }
+      .also-card .ic{ width:46px; height:46px; border-radius:13px; background:rgba(232,38,45,.12); border:1px solid rgba(232,38,45,.3); display:flex; align-items:center; justify-content:center; margin-bottom:.85rem; }
+      .also-card:nth-child(even) .ic{ background:rgba(47,123,255,.12); border-color:rgba(47,123,255,.3); }
+      .also-card h4{ margin:0 0 .35rem; font-size:1.08rem; font-weight:900; }
+      .also-card p{ margin:0; color:var(--mut); font-size:.95rem; }
+
+      /* ---------- usage guide ---------- */
+      .video-card{
+        max-width:860px; margin:0 auto 1.6rem;
+        background:var(--card); border:1px solid var(--line); border-radius:22px;
+        padding:1rem 1rem 1.15rem;
+      }
+      .video-frame{
+        position:relative; aspect-ratio:16/9; border-radius:14px; overflow:hidden;
+        background:#000;
+      }
+      .video-frame iframe{
+        position:absolute; inset:0; width:100%; height:100%; border:0; display:block;
+      }
+      .video-cover{
+        position:absolute; inset:0; width:100%; height:100%; border:0; cursor:pointer;
+        font-family:var(--font); color:#fff; text-align:center; padding:1.2rem;
+        display:flex; flex-direction:column; align-items:center; justify-content:center; gap:.85rem;
+        background:
+          radial-gradient(110% 90% at 78% 0%, rgba(120,80,255,.42), transparent 55%),
+          radial-gradient(100% 110% at 10% 105%, rgba(232,38,45,.45), transparent 55%),
+          linear-gradient(155deg,#241a33 0%, #131c33 52%, #0a0f1e 100%);
+      }
+      .video-cover::after{
+        content:""; position:absolute; left:0; right:0; bottom:0; height:34%; pointer-events:none;
+        background:linear-gradient(180deg,#1d2745,#101828);
+        clip-path:polygon(0 55%,18% 22%,36% 52%,55% 12%,72% 46%,88% 24%,100% 52%,100% 100%,0 100%);
+        opacity:.55;
+      }
+      .video-cover > *{ position:relative; z-index:1; }
+      .vc-badge{
+        display:inline-flex; align-items:center; gap:.45rem;
+        font-size:.82rem; font-weight:800; color:#ffb3b5;
+        background:rgba(232,38,45,.14); border:1px solid rgba(232,38,45,.4);
+        border-radius:999px; padding:.28rem .9rem;
+      }
+      .vc-play{
+        width:78px; height:78px; border-radius:50%; flex:none;
+        background:linear-gradient(180deg,var(--red-2),var(--red));
+        display:flex; align-items:center; justify-content:center;
+        box-shadow:0 18px 38px -12px rgba(232,38,45,.75), 0 0 0 10px rgba(232,38,45,.14);
+        transition:transform .18s ease, box-shadow .18s ease;
+      }
+      .video-cover:hover .vc-play, .video-cover:focus-visible .vc-play{
+        transform:scale(1.07);
+        box-shadow:0 18px 38px -12px rgba(232,38,45,.85), 0 0 0 14px rgba(232,38,45,.18);
+      }
+      .video-cover:focus-visible{ outline:3px solid var(--blue-2); outline-offset:-3px; }
+      .vc-text{ display:grid; gap:.15rem; }
+      .vc-title{ font-size:clamp(1.2rem,3.2vw,1.7rem); font-weight:900; line-height:1.35; text-shadow:0 2px 10px rgba(0,0,0,.6); }
+      .vc-sub{ color:rgba(255,255,255,.78); font-size:clamp(.88rem,2.2vw,1rem); font-weight:700; text-shadow:0 1px 6px rgba(0,0,0,.6); }
+      .video-meta{
+        display:flex; flex-wrap:wrap; gap:.7rem 1rem; align-items:center; justify-content:space-between;
+        margin-top:1rem;
+      }
+      .video-meta b{ font-size:1.02rem; font-weight:900; line-height:1.4; }
+      .video-meta span{ display:block; color:var(--mut); font-size:.9rem; font-weight:600; }
+      .guide{ display:grid; grid-template-columns:repeat(4,1fr); gap:1rem; counter-reset:step; }
+      .guide-card{ background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:1.5rem 1.3rem; }
+      .guide-card .num{
+        width:44px; height:44px; border-radius:50%; margin-bottom:.9rem;
+        background:linear-gradient(180deg,var(--blue-2),var(--blue)); color:#fff;
+        display:flex; align-items:center; justify-content:center; font-weight:900; font-size:1.15rem;
+      }
+      .guide-card h4{ margin:0 0 .35rem; font-size:1.1rem; font-weight:900; }
+      .guide-card p{ margin:0; color:var(--mut); font-size:.95rem; }
+
+      /* ---------- download ---------- */
+      .dl-card{
+        background:linear-gradient(180deg,var(--card-2),var(--card));
+        border:1px solid var(--line); border-radius:26px;
+        padding:2.2rem; display:grid; grid-template-columns:auto 1fr auto; gap:1.8rem; align-items:center;
+      }
+      .dl-card .mark{
+        width:104px; height:104px; border-radius:28px; flex:none;
+        background:linear-gradient(150deg,var(--red-2),var(--red) 55%,#8f1218);
+        display:flex; align-items:center; justify-content:center;
+        box-shadow:0 18px 34px -14px rgba(0,0,0,.7);
+      }
+      .dl-card h3{ margin:0 0 .3rem; font-size:1.5rem; font-weight:900; }
+      .dl-card h3 .en{ direction:ltr; unicode-bidi:isolate; }
+      .dl-meta{ display:flex; flex-wrap:wrap; gap:.35rem 1.3rem; color:var(--mut); font-weight:700; font-size:.95rem; }
+      .dl-meta b{ color:var(--txt); }
+
+      /* ---------- steps ---------- */
+      .steps{ display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; counter-reset:step; }
+      .step{ background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:1.5rem 1.3rem; }
+      .step .num{
+        width:44px; height:44px; border-radius:50%; margin-bottom:.9rem;
+        background:linear-gradient(180deg,var(--red-2),var(--red)); color:#fff;
+        display:flex; align-items:center; justify-content:center; font-weight:900; font-size:1.15rem;
+      }
+      .step h4{ margin:0 0 .35rem; font-size:1.1rem; font-weight:900; }
+      .step p{ margin:0; color:var(--mut); font-size:.95rem; }
+
+      /* ---------- faq ---------- */
+      .faq{ max-width:820px; margin:0 auto; display:grid; gap:.7rem; }
+      details{ background:var(--card); border:1px solid var(--line); border-radius:16px; overflow:hidden; }
+      summary{
+        cursor:pointer; list-style:none; font-weight:800; font-size:1.02rem;
+        padding:1rem 1.2rem; display:flex; align-items:center; gap:.8rem;
+      }
+      summary::-webkit-details-marker{ display:none; }
+      summary .chev{ margin-inline-start:auto; color:var(--mut); transition:transform .2s ease; flex:none; }
+      details[open ] summary .chev{ transform:rotate(180deg); }
+      details .ans{ padding:0 1.2rem 1.15rem; color:var(--mut); }
+      details .ans p{ margin:0; }
+
+      /* ---------- footer ---------- */
+      footer{ border-top:1px solid var(--line); margin-top:2rem; padding:2.4rem 0 2.8rem; background:var(--bg-2); }
+      .foot{ display:flex; flex-wrap:wrap; gap:1.4rem 2.4rem; align-items:flex-start; }
+      .foot .brand .mark{ width:52px; height:52px; border-radius:16px; }
+      .foot p{ color:var(--mut); max-width:26rem; margin:.4rem 0 0; font-size:.95rem; }
+      .foot-links{ display:flex; flex-direction:column; gap:.45rem; margin-inline-start:auto; }
+      .foot-links b{ font-size:.95rem; margin-bottom:.2rem; }
+      .foot-links a{ color:var(--mut); text-decoration:none; font-weight:700; padding:.3rem 0; display:inline-block; }
+      .foot-links a:hover{ color:var(--txt); }
+      .licenses{ margin-top:1.8rem; padding-top:1.2rem; border-top:1px solid var(--line); color:var(--mut-2); font-size:.85rem; display:flex; flex-wrap:wrap; gap:.4rem 1.6rem; }
+
+      /* ---------- responsive ---------- */
+      @media (max-width: 920px){
+        .hero-grid{ grid-template-columns:1fr; gap:2.6rem; }
+        .hero{ padding-top:2.2rem; }
+        .hero p.lead, .stats{ max-width:none; }
+        .feature{ grid-template-columns:1fr; gap:2rem; padding:2rem 0; }
+        .feature .stage{ order:2; }
+        .also{ grid-template-columns:1fr 1fr; }
+        .guide{ grid-template-columns:1fr 1fr; }
+        .dl-card{ grid-template-columns:1fr; text-align:center; justify-items:center; }
+      }
+      @media (max-width: 640px){
+        .nav{ gap:.55rem .8rem; }
+        .nav-links{ order:3; width:100%; margin-inline-start:0; justify-content:space-between; gap:.15rem; }
+        .nav-links a{ font-size:.88rem; padding:.45rem .55rem; }
+        .stats{ grid-template-columns:repeat(3,1fr); gap:.55rem; }
+        .stat b{ font-size:1.3rem; }
+        .stat span{ font-size:.74rem; }
+        .also{ grid-template-columns:1fr; }
+        .guide{ grid-template-columns:1fr; }
+        .steps{ grid-template-columns:1fr; }
+        .phone{ transform:rotate(-2deg); }
+        section{ padding:2.4rem 0; }
+        .dl-card{ padding:1.5rem 1.1rem; }
+      }
+      @media (prefers-reduced-motion: reduce){
+        html{ scroll-behavior:auto; }
+        .live-dot i{ animation:none; }
+        .cap .ar-line, .cap .en-line{ transition:none; }
+        .vc-play{ transition:none; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="backdrop" aria-hidden="true"></div>
+
+    <header>
+      <nav class="nav" aria-label="التنقل الرئيسي">
+        <a class="brand" href="#top">
+          <span class="mark" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 1 6.5 18H20"/><path d="M8.5 8h7M8.5 11.5h4.5"/></svg>
+          </span>
+          <span>
+            <b><span class="ltr">Merso Translator</span></b>
+            <span class="sub">ترجمة ألعاب PS5 للعربي</span>
+          </span>
+        </a>
+        <div class="nav-links">
+          <a href="#features" data-spy="features">المميزات</a>
+          <a href="https://github.com/MersoStore/merso-translator/releases/download/v1.0/merso-translate.apk" class="dl-tab" download>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m6.5 10.5 5.5 5.5 5.5-5.5"/><path d="M4 20h16"/></svg>
+            التحميل
+          </a>
+          <a href="#guide" data-spy="guide">شرح الاستخدام</a>
+          <a href="https://youtube.com/@mersostore" target="_blank" rel="noopener noreferrer">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="5.5" width="19" height="13" rx="4"/><path d="m10 9.3 5 2.7-5 2.7z" fill="currentColor" stroke="none"/></svg>
+            قناة اليوتيوب
+          </a>
+          <a href="#faq" data-spy="faq">الأسئلة الشائعة</a>
+        </div>
+      </nav>
+    </header>
+
+    <main id="top">
+      <!-- ================= HERO ================= -->
+      <div class="hero">
+        <div class="wrap hero-grid">
+          <div>
+            <span class="pill"><i></i> تطبيق أندرويد مجاني لترجمة الألعاب</span>
+            <h1><span class="en">Merso Translator</span><span class="accent">العبها… بالعربي</span></h1>
+            <p class="lead">
+              ترجمة فورية لحوارات وترجمات ألعاب الـ PS5 الإنجليزية: التطبيق بيقرأ الكلام اللي على
+              الشاشة ويعرضه بالعربي على تلفزيونك وانت بتلعب — بيشتغل على الـ PS5 الأونلاين
+              والمعدّل على حد سواء، ومن غير اشتراك.
+            </p>
+            <div class="hero-cta">
+              <a class="btn btn-red dl-btn" href="https://github.com/MersoStore/merso-translator/releases/download/v1.0/merso-translate.apk" download>
+                <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m6.5 10.5 5.5 5.5 5.5-5.5"/><path d="M4 20h16"/></svg>
+                حمّل التطبيق <span class="size">· <span class="ltr">60 MB</span></span>
+              </a>
+              <a class="btn btn-ghost" href="#guide">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg>
+                شرح الاستخدام
+              </a>
+            </div>
+            <p class="dl-note" id="heroDlNote" role="status"></p>
+            <div class="hero-meta">
+              <span>الإصدار <b class="ltr">1.0</b></span>
+              <span>أندرويد <b class="ltr">8.0</b> أو أحدث</span>
+              <span><b>مجاني</b> · بدون اشتراك</span>
+              <span>للـ <b class="ltr">PS5</b> الأونلاين والمعدّل</span>
+            </div>
+            <div class="stats">
+              <div class="stat"><b><em>2</em></b><span>طريقتان للترجمة<br />ريموت بلاي + كاميرا</span></div>
+              <div class="stat"><b><em>0</em></b><span>اشتراكات<br />مجاني بالكامل</span></div>
+              <div class="stat"><b><em>2</em></b><span>لغتان للواجهة<br />عربي و English</span></div>
+            </div>
+          </div>
+
+          <div class="stage" aria-hidden="true">
+            <div class="phone">
+              <div class="screen">
+                <div class="notch"></div>
+                <div class="scr-head">
+                  <span class="mark">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 1 6.5 18H20"/><path d="M8.5 8h7M8.5 11.5h4.5"/></svg>
+                  </span>
+                  <div>
+                    <b>Merso Translator</b>
+                    <small>وضع الريموت بلاي</small>
+                  </div>
+                  <span class="live-dot"><i></i> البث شغال</span>
+                </div>
+                <div class="scene">
+                  <div class="sun"></div>
+                  <div class="ridge"></div>
+                  <div class="cap" id="heroCap">
+                    <span class="en-line" id="capEn">We have to move. Now!</span>
+                    <span class="ar-line" id="capAr">لازم نتحرك… دلوقتي!</span>
+                  </div>
+                </div>
+                <div class="mode-cards">
+                  <div class="mode-card on">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ff4046" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 12h4l2-5 2.5 10L16 12h2"/><rect x="2.5" y="4.5" width="19" height="15" rx="3"/></svg>
+                    <b>ريموت بلاي</b>
+                    <small>البث جوه التطبيق</small>
+                  </div>
+                  <div class="mode-card">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9aa5bb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h2.2l1.7-2.5h8.2L17.8 8H20a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1Z"/><circle cx="12" cy="14" r="3.4"/></svg>
+                    <b>كاميرا الموبايل</b>
+                    <small>صوّب على الشاشة</small>
+                  </div>
+                </div>
+                <div class="status-row">
+                  <span class="chip">الترجمة على التلفزيون ✓</span>
+                  <span class="chip blue">حساب مفعّل وهميًا ✓</span>
+                </div>
+                <div class="tabbar">
+                  <span class="on">
+                    <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 1 6.5 18H20"/></svg>
+                    ترجمة
+                  </span>
+                  <span>
+                    <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.3a2.6 2.6 0 1 1 3.4 2.5c-.8.3-.9.8-.9 1.7"/><circle cx="12" cy="17" r=".4" fill="currentColor"/></svg>
+                    دليل
+                  </span>
+                  <span>
+                    <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2"/><path d="M19 12a7 7 0 0 0-.14-1.4l2-1.55-2-3.46-2.36.95a7 7 0 0 0-2.42-1.4L13.7 2.6h-3.4l-.38 2.54a7 7 0 0 0-2.42 1.4l-2.36-.95-2 3.46 2 1.55a7 7 0 0 0 0 2.8l-2 1.55 2 3.46 2.36-.95a7 7 0 0 0 2.42 1.4l.38 2.54h3.4l.38-2.54a7 7 0 0 0 2.42-1.4l2.36.95 2-3.46-2-1.55c.1-.45.14-.92.14-1.4Z"/></svg>
+                    إعدادات
+                  </span>
+                  <span>
+                    <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5.5" width="19" height="13" rx="4"/><path d="m10 9.3 5 2.7-5 2.7z" fill="currentColor" stroke="none"/></svg>
+                    شرح الاستخدام
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= FEATURES ================= -->
+      <section id="features" style="padding-top:1.4rem">
+        <div class="wrap">
+          <div class="sec-head">
+            <h2>التطبيق بيعمل إيه؟</h2>
+            <p>طريقتين للترجمة، تفعيل وهمي مدمج، وتحكم كامل في شكل الترجمة — وكل حاجة بتتعمل من موبايلك.</p>
+          </div>
+
+          <!-- Remote Play -->
+          <div class="feature">
+            <div>
+              <span class="kicker red"><i></i> وضع الريموت بلاي</span>
+              <h3>البث شغال جوه التطبيق <span class="accent">والترجمة شغالة معاه</span></h3>
+              <p>
+                التطبيق بيبث لعبتك من الـ PS5 للموبايل بمحرك Chiaki المدمج فيه، وبيقرأ الترجمة
+                الإنجليزية من البث نفسه لحظة بلحظة ويترجمها للعربي.
+              </p>
+              <ul class="ticks">
+                <li><span class="tk"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#2fbf71" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg></span> قراءة دقيقة من البث مباشرة — من غير ما تصوّر الشاشة ولا توجه كاميرا.</li>
+                <li><span class="tk"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#2fbf71" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg></span> الترجمة بتتبعت للتلفزيون وبتظهر فوق اللعبة وانت بتلعب.</li>
+                <li><span class="tk"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#2fbf71" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg></span> وضع الصورة المصغّرة (PiP) بيخليك تكمّل لعب وانت بره التطبيق من غير ما البث يفصل.</li>
+                <li><span class="tk"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#2fbf71" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg></span> مدة ظهور الترجمة بتتظبط على طول الجملة، والنص بيتثبّت عشان ميتهزش وانت بتقرأ.</li>
+              </ul>
+            </div>
+            <div class="stage" aria-hidden="true">
+              <div class="phone flat">
+                <div class="screen">
+                  <div class="notch"></div>
+                  <div class="scr-head">
+                    <span class="mark">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 1 6.5 18H20"/><path d="M8.5 8h7M8.5 11.5h4.5"/></svg>
+                    </span>
+                    <div>
+                      <b>البث المباشر</b>
+                      <small>PS5 · نفس الشبكة</small>
+                    </div>
+                    <span class="live-dot"><i></i> متصل</span>
+                  </div>
+                  <div class="scene" style="height:56%; min-height:230px">
+                    <div class="sun"></div>
+                    <div class="ridge"></div>
+                    <div class="cap">
+                      <span class="en-line">Stay close. Don't make a sound.</span>
+                      <span class="ar-line">خليك قريب… ومتعملش صوت.</span>
+                    </div>
+                  </div>
+                  <div class="status-row">
+                    <span class="chip">الترجمة مفعّلة ✓</span>
+                    <span class="chip blue">PiP جاهز</span>
+                    <span class="chip blue">الشاشة مضيئة</span>
+                  </div>
+                  <div class="tabbar">
+                    <span class="on">
+                      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 1 6.5 18H20"/></svg>
+                      ترجمة
+                    </span>
+                    <span>
+                      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.3a2.6 2.6 0 1 1 3.4 2.5c-.8.3-.9.8-.9 1.7"/><circle cx="12" cy="17" r=".4" fill="currentColor"/></svg>
+                      دليل
+                    </span>
+                    <span>
+                      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2"/><path d="M19 12a7 7 0 0 0-.14-1.4l2-1.55-2-3.46-2.36.95a7 7 0 0 0-2.42-1.4L13.7 2.6h-3.4l-.38 2.54a7 7 0 0 0-2.42 1.4l-2.36-.95-2 3.46 2 1.55a7 7 0 0 0 0 2.8l-2 1.55 2 3.46 2.36-.95a7 7 0 0 0 2.42 1.4l.38 2.54h3.4l.38-2.54a7 7 0 0 0 2.42-1.4l2.36.95 2-3.46-2-1.55c.1-.45.14-.92.14-1.4Z"/></svg>
+                      إعدادات
+                    </span>
+                    <span>
+                      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5.5" width="19" height="13" rx="4"/><path d="m10 9.3 5 2.7-5 2.7z" fill="currentColor" stroke="none"/></svg>
+                      شرح الاستخدام
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Camera -->
+          <div class="feature">
+            <div class="stage" aria-hidden="true">
+              <div class="phone flat">
+                <div class="screen">
+                  <div class="notch"></div>
+                  <div class="scr-head">
+                    <span class="mark">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 1 6.5 18H20"/><path d="M8.5 8h7M8.5 11.5h4.5"/></svg>
+                    </span>
+                    <div>
+                      <b>وضع الكاميرا</b>
+                      <small>قراءة من أي شاشة</small>
+                    </div>
+                    <span class="live-dot"><i></i> بيقرأ</span>
+                  </div>
+                  <div class="cam-view">
+                    <span class="vf tl"></span><span class="vf tr"></span><span class="vf bl"></span><span class="vf br"></span>
+                    <div class="cam-tv">
+                      <div class="tv-cap">
+                        <span class="en-line">You can't hide forever.</span>
+                        <span class="ar-line">مش هتقدر تستخبى على طول.</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="cam-cap">مش هتقدر تستخبى على طول.</div>
+                  <div class="cam-tools">
+                    <span>
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.6-6.4"/><path d="M21 3v6h-6"/></svg>
+                      تدوير
+                    </span>
+                    <span>
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6M8 11h6"/></svg>
+                      زووم
+                    </span>
+                    <span>
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12Z"/><circle cx="12" cy="12" r="3"/></svg>
+                      إخفاء الواجهة
+                    </span>
+                  </div>
+                  <div class="tabbar">
+                    <span class="on">
+                      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 1 6.5 18H20"/></svg>
+                      ترجمة
+                    </span>
+                    <span>
+                      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.3a2.6 2.6 0 1 1 3.4 2.5c-.8.3-.9.8-.9 1.7"/><circle cx="12" cy="17" r=".4" fill="currentColor"/></svg>
+                      دليل
+                    </span>
+                    <span>
+                      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2"/><path d="M19 12a7 7 0 0 0-.14-1.4l2-1.55-2-3.46-2.36.95a7 7 0 0 0-2.42-1.4L13.7 2.6h-3.4l-.38 2.54a7 7 0 0 0-2.42 1.4l-2.36-.95-2 3.46 2 1.55a7 7 0 0 0 0 2.8l-2 1.55 2 3.46 2.36-.95a7 7 0 0 0 2.42 1.4l.38 2.54h3.4l.38-2.54a7 7 0 0 0 2.42-1.4l2.36.95 2-3.46-2-1.55c.1-.45.14-.92.14-1.4Z"/></svg>
+                      إعدادات
+                    </span>
+                    <span>
+                      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5.5" width="19" height="13" rx="4"/><path d="m10 9.3 5 2.7-5 2.7z" fill="currentColor" stroke="none"/></svg>
+                      شرح الاستخدام
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <span class="kicker"><i></i> وضع الكاميرا</span>
+              <h3>صوّب الكاميرا على الشاشة <span class="accent-b">والترجمة توصلك</span></h3>
+              <p>
+                لو مش عايز ريموت بلاي، وجّه كاميرا موبايلك لأي شاشة والتطبيق هيقرأ الترجمة
+                الإنجليزية اللي عليها ويترجمها للعربي على طول.
+              </p>
+              <ul class="ticks">
+                <li><span class="tk"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#2fbf71" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg></span> بيشتغل على أي شاشة وأي مصدر صورة — مش مربوط بجهاز أو تطبيق معين.</li>
+                <li><span class="tk"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#2fbf71" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg></span> زووم بصوبعين (Pinch) عشان تقرّب على منطقة الترجمة وتقرأها بدقة.</li>
+                <li><span class="tk"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#2fbf71" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg></span> زرار لتدوير الصورة لو الكاميرا ظهرت مقلوبة أو معكوسة.</li>
+                <li><span class="tk"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#2fbf71" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg></span> دوس في أي حتة عشان تخفي الواجهة وتركز في اللعب — والترجمة بتفضل ظاهرة.</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- TV captions -->
+          <div class="feature">
+            <div>
+              <span class="kicker red"><i></i> الترجمة على التلفزيون</span>
+              <h3>الكلام بيظهر على الشاشة الكبيرة <span class="accent">فوق اللعبة نفسها</span></h3>
+              <p>
+                عن طريق صفحة التطبيق في Media Station X على تلفزيونك، الترجمة العربية بتظهر
+                تحت الشاشة فوق اللعبة مباشرة — عينك على اللعبة والترجمة في نفس المكان.
+              </p>
+              <ul class="ticks">
+                <li><span class="tk"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#2fbf71" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg></span> الربط بكود وعنوان بيظهروا في التطبيق — مرة واحدة بس وبعدها بيفتكرهم.</li>
+                <li><span class="tk"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#2fbf71" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg></span> غيّر حجم الخط ولونه ودرجة غمقان الخلفية من الإعدادات، وبيتبعت للتلفزيون فورًا.</li>
+                <li><span class="tk"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#2fbf71" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg></span> زرار عين لإخفاء الترجمة وإظهارها في أي لحظة من غير ما توقف اللعب.</li>
+                <li><span class="tk"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#2fbf71" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg></span> أزرار جوه صفحة التلفزيون بتساعدك ترجع لمدخل الـ PS5 بسرعة بعد ما تخلص.</li>
+              </ul>
+            </div>
+            <div class="tv-stage" aria-hidden="true">
+              <div class="tv">
+                <div class="screen">
+                  <div class="tv-scene">
+                    <div class="ridge"></div>
+                    <div class="tv-cap">
+                      <span class="en-line">This place… it feels familiar.</span>
+                      <span class="ar-line">المكان ده… حاسس إني شفته قبل كده.</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="tv-stand"></div>
+              <div class="tv-base"></div>
+              <div class="style-chips">
+                <span>حجم الخط <b>كبير</b></span>
+                <span>اللون <b>أبيض</b></span>
+                <span>الخلفية <b>غمقة</b></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Fake activation -->
+          <div class="feature">
+            <div class="stage" aria-hidden="true">
+              <div class="phone flat">
+                <div class="screen">
+                  <div class="notch"></div>
+                  <div class="scr-head">
+                    <span class="mark">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 1 6.5 18H20"/><path d="M8.5 8h7M8.5 11.5h4.5"/></svg>
+                    </span>
+                    <div>
+                      <b>تفعيل الريموت بلاي</b>
+                      <small>من غير تسجيل دخول سوني</small>
+                    </div>
+                  </div>
+                  <div class="acct">
+                    <div class="acct-row on">
+                      <span class="avatar">U1</span>
+                      <div>
+                        <b>الحساب الأساسي</b>
+                        <small>مفعّل · مسجّل وهميًا</small>
+                      </div>
+                      <svg class="ok" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2fbf71" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m8.2 12.4 2.6 2.6 5-5.6"/></svg>
+                    </div>
+                    <div class="acct-row">
+                      <span class="avatar" style="background:linear-gradient(140deg,#5b6478,#232a3f)">U2</span>
+                      <div>
+                        <b>حساب تاني</b>
+                        <small>لسه مش مفعّل</small>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="fake-btn">تفعيل + تسجيل وهمي</div>
+                  <p class="mini-note">بعد التفعيل: فعّل خيار الريموت بلاي للحساب من إعدادات الجهاز، واعمل إعادة تشغيل، وبعدها ابدأ البث بـ PIN جديد.</p>
+                  <div class="status-row">
+                    <span class="chip">الأداة وصلت للجهاز ✓</span>
+                    <span class="chip blue">Account ID جاهز ✓</span>
+                  </div>
+                  <div class="tabbar">
+                    <span class="on">
+                      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 1 6.5 18H20"/></svg>
+                      ترجمة
+                    </span>
+                    <span>
+                      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.3a2.6 2.6 0 1 1 3.4 2.5c-.8.3-.9.8-.9 1.7"/><circle cx="12" cy="17" r=".4" fill="currentColor"/></svg>
+                      دليل
+                    </span>
+                    <span>
+                      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2"/><path d="M19 12a7 7 0 0 0-.14-1.4l2-1.55-2-3.46-2.36.95a7 7 0 0 0-2.42-1.4L13.7 2.6h-3.4l-.38 2.54a7 7 0 0 0-2.42 1.4l-2.36-.95-2 3.46 2 1.55a7 7 0 0 0 0 2.8l-2 1.55 2 3.46 2.36-.95a7 7 0 0 0 2.42 1.4l.38 2.54h3.4l.38-2.54a7 7 0 0 0 2.42-1.4l2.36.95 2-3.46-2-1.55c.1-.45.14-.92.14-1.4Z"/></svg>
+                      إعدادات
+                    </span>
+                    <span>
+                      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5.5" width="19" height="13" rx="4"/><path d="m10 9.3 5 2.7-5 2.7z" fill="currentColor" stroke="none"/></svg>
+                      شرح الاستخدام
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <span class="kicker"><i></i> من غير PSN</span>
+              <h3>تفعيل الريموت بلاي الوهمي <span class="accent-b">مدمج جوه التطبيق</span></h3>
+              <p>
+                لو جهازك أونلاين، سجّل دخولك بحساب سوني الرسمي وخلاص. لكن حسابات الـ PS5 المعدّل
+                غالبًا بترفض تشغيل الريموت بلاي وبتطلب تسجيل دخول سوني — والتطبيق بيحل المشكلة
+                دي من جواه، مش محتاج تدوّر على حلول برّه.
+              </p>
+              <ul class="ticks">
+                <li><span class="tk"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#2fbf71" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg></span> التطبيق بيبعت أداة التفعيل لجهازك عن طريق Payload Manager وبيشغّلها.</li>
+                <li><span class="tk"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#2fbf71" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg></span> بيقرأ حسابات الجهاز، ويفعّل الحساب اللي تختاره ويسجّله وهميًا بضغطة واحدة.</li>
+                <li><span class="tk"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#2fbf71" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg></span> بيحفظ الـ Account ID وبيستخدمه في تسجيل الريموت بلاي من غير ما تدخل على سوني.</li>
+                <li><span class="tk"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#2fbf71" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg></span> ولو حابب الطريق الرسمي، تسجيل الدخول بحساب سوني موجود برضه زي ما هو.</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Control -->
+          <div class="feature">
+            <div>
+              <span class="kicker red"><i></i> تحكم كامل</span>
+              <h3>ظبّط منطقة القراءة وشكل الترجمة <span class="accent">على مزاجك</span></h3>
+              <p>
+                من تبويب الإعدادات تقدر تحدد بالظبط المنطقة اللي التطبيق بيقرأ منها الكلام،
+                وتشكّل الترجمة على التلفزيون زي ما تحب.
+              </p>
+              <ul class="ticks">
+                <li><span class="tk"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#2fbf71" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg></span> محرر قصّ بإطار أحمر تقدر تسحبه، وسلايدرز لكل حافة — حدّد منطقة الترجمة بدقة.</li>
+                <li><span class="tk"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#2fbf71" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg></span> القراءة مركزة على شريط الترجمة تحت الشاشة، فالنتيجة أسرع وأنضف.</li>
+                <li><span class="tk"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#2fbf71" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg></span> واجهة التطبيق بالعربي أو الإنجليزي — بدّل بينهم في أي وقت.</li>
+                <li><span class="tk"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#2fbf71" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg></span> الشاشة بتفضل مضيئة طول ما انت بتلعب، فمفيش انقطاع في نص جملة.</li>
+              </ul>
+            </div>
+            <div class="stage" aria-hidden="true">
+              <div class="phone flat">
+                <div class="screen">
+                  <div class="notch"></div>
+                  <div class="scr-head">
+                    <span class="mark">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 1 6.5 18H20"/><path d="M8.5 8h7M8.5 11.5h4.5"/></svg>
+                    </span>
+                    <div>
+                      <b>إعدادات منطقة الترجمة</b>
+                      <small>اسحب الإطار وعدّل الحواف</small>
+                    </div>
+                  </div>
+                  <div class="crop-view">
+                    <div class="lines">— the subtitles appear down here —</div>
+                    <div class="crop-frame"><span>دي المنطقة اللي هتتقرأ</span></div>
+                  </div>
+                  <div class="sliders">
+                    <div class="slider">الشمال <span class="track"><span class="fill" style="width:18%"></span><span class="knob" style="inset-inline-start:18%"></span></span></div>
+                    <div class="slider">اليمين <span class="track"><span class="fill" style="width:82%"></span><span class="knob" style="inset-inline-start:82%"></span></span></div>
+                    <div class="slider">تحت <span class="track"><span class="fill" style="width:64%"></span><span class="knob" style="inset-inline-start:64%"></span></span></div>
+                  </div>
+                  <div class="tabbar">
+                    <span>
+                      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 1 6.5 18H20"/></svg>
+                      ترجمة
+                    </span>
+                    <span>
+                      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.3a2.6 2.6 0 1 1 3.4 2.5c-.8.3-.9.8-.9 1.7"/><circle cx="12" cy="17" r=".4" fill="currentColor"/></svg>
+                      دليل
+                    </span>
+                    <span class="on">
+                      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2"/><path d="M19 12a7 7 0 0 0-.14-1.4l2-1.55-2-3.46-2.36.95a7 7 0 0 0-2.42-1.4L13.7 2.6h-3.4l-.38 2.54a7 7 0 0 0-2.42 1.4l-2.36-.95-2 3.46 2 1.55a7 7 0 0 0 0 2.8l-2 1.55 2 3.46 2.36-.95a7 7 0 0 0 2.42 1.4l.38 2.54h3.4l.38-2.54a7 7 0 0 0 2.42-1.4l2.36.95 2-3.46-2-1.55c.1-.45.14-.92.14-1.4Z"/></svg>
+                      إعدادات
+                    </span>
+                    <span>
+                      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5.5" width="19" height="13" rx="4"/><path d="m10 9.3 5 2.7-5 2.7z" fill="currentColor" stroke="none"/></svg>
+                      شرح الاستخدام
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= ALSO ================= -->
+      <section style="padding-top:.6rem">
+        <div class="wrap">
+          <div class="sec-head">
+            <h2>وكمان…</h2>
+          </div>
+          <div class="also">
+            <div class="also-card">
+              <div class="ic"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="#ff4046" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4.5 20.5a7.5 7.5 0 0 1 15 0"/><path d="m4 4 16 16" stroke="#9aa5bb"/></svg></div>
+              <h4>من غير حسابات</h4>
+              <p>لا تسجيل دخول ولا حسابات جديدة — اختار وضع الترجمة وابدأ على طول.</p>
+            </div>
+            <div class="also-card">
+              <div class="ic"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="#57a0ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5z"/><path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5"/><path d="m9.5 8 2 2-2 2M13.5 8l2 2-2 2"/></svg></div>
+              <h4>دليل خطوة بخطوة</h4>
+              <p>٤ خطوات جوه التطبيق بياخدوك من الصفر: إعداد الشاشة، الربط، إعداد الـ PS5، وتشغيل الريموت بلاي.</p>
+            </div>
+            <div class="also-card">
+              <div class="ic"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="#ff4046" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5.5" width="19" height="13" rx="4"/><path d="m10 9.3 5 2.7-5 2.7z" fill="#ff4046" stroke="none"/></svg></div>
+              <h4>شرح مدمج</h4>
+              <p>تبويب خاص جوه التطبيق بيشرح كل خطوة بالترتيب — من أول الربط لحد أول ترجمة.</p>
+            </div>
+            <div class="also-card">
+              <div class="ic"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="#57a0ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="13" height="10" rx="2.5"/><rect x="8" y="9.5" width="13" height="10" rx="2.5" fill="#0a0d15"/></svg></div>
+              <h4>صورة مصغّرة (PiP)</h4>
+              <p>كمّل متابعة البث والترجمة في نافذة صغيرة وانت بره التطبيق، من غير ما الاتصال يفصل.</p>
+            </div>
+            <div class="also-card">
+              <div class="ic"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="#ff4046" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12Z"/><circle cx="12" cy="12" r="3"/></svg></div>
+              <h4>إخفاء وإظهار بضغطة</h4>
+              <p>زرار عين بيخفي الترجمة ويظهرها على التلفزيون في أي لحظة — مفيد في المشاهد السينمائية.</p>
+            </div>
+            <div class="also-card">
+              <div class="ic"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="#57a0ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/><circle cx="12" cy="12" r="3.2"/></svg></div>
+              <h4>مجاني بالكامل</h4>
+              <p>كل المميزات مفتوحة من أول مرة — مفيش نسخة مدفوعة ولا اشتراك شهري ولا حدود.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= GUIDE ================= -->
+      <section id="guide" style="padding-top:.6rem">
+        <div class="wrap">
+          <div class="sec-head">
+            <h2>شرح الاستخدام</h2>
+            <p>شاهد فيديو الشرح الكامل، والتطبيق نفسه بياخدك في ٤ خطوات من أول ما تفتحه لحد ما الترجمة تظهر على التلفزيون.</p>
+          </div>
+          <div class="video-card">
+            <div class="video-frame">
+              <button class="video-cover" id="videoCover" type="button" aria-label="تشغيل فيديو شرح الاستخدام">
+                <span class="vc-badge">
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="5.5" width="19" height="13" rx="4"/><path d="m10 9.3 5 2.7-5 2.7z" fill="currentColor" stroke="none"/></svg>
+                  فيديو الشرح على يوتيوب
+                </span>
+                <span class="vc-play" aria-hidden="true">
+                  <svg width="30" height="30" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M8 5.2v13.6c0 .9 1 1.5 1.8 1L20 13a1.15 1.15 0 0 0 0-2L9.8 4.2C9 3.7 8 4.3 8 5.2Z"/></svg>
+                </span>
+                <span class="vc-text">
+                  <span class="vc-title">شرح استخدام <span class="ltr">Merso Translator</span></span>
+                  <span class="vc-sub">شرح تعريب ألعاب PS5 وترجمة الألعاب للعربي — دوس للتشغيل</span>
+                </span>
+              </button>
+            </div>
+            <div class="video-meta">
+              <div>
+                <b>فيديو شرح الاستخدام</b>
+                <span>شرح تعريب ألعاب PS5 وترجمة الألعاب للعربي بتطبيق Merso Translator</span>
+              </div>
+              <a class="btn btn-ghost btn-sm" href="https://youtu.be/AhgKETmy2lc" target="_blank" rel="noopener noreferrer">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="5.5" width="19" height="13" rx="4"/><path d="m10 9.3 5 2.7-5 2.7z" fill="currentColor" stroke="none"/></svg>
+                افتح على يوتيوب
+              </a>
+            </div>
+          </div>
+          <div class="guide">
+            <div class="guide-card">
+              <div class="num">1</div>
+              <h4>إعداد الشاشة</h4>
+              <p>افتح صفحة التطبيق على التلفزيون من Media Station X وخليها جاهزة لاستقبال الترجمة.</p>
+            </div>
+            <div class="guide-card">
+              <div class="num">2</div>
+              <h4>ربط الشاشة</h4>
+              <p>اكتب الكود والعنوان اللي في التطبيق عشان يربط موبايلك بالتلفزيون — مرة واحدة بس.</p>
+            </div>
+            <div class="guide-card">
+              <div class="num">3</div>
+              <h4>إعداد الـ PS5</h4>
+              <p>جهّز الجهاز للريموت بلاي: فعّل الخيار للحساب اللي هتلعب بيه، ولو الجهاز معدّل استخدم التفعيل الوهمي المدمج.</p>
+            </div>
+            <div class="guide-card">
+              <div class="num">4</div>
+              <h4>تشغيل الريموت بلاي</h4>
+              <p>ادخل الـ PIN اللي بيظهر على الجهاز وابدأ البث — أو اختار وضع الكاميرا وصوّب على الشاشة، والترجمة هتشتغل على طول.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= DOWNLOAD ================= -->
+      <section id="download" style="padding-top:.6rem">
+        <div class="wrap">
+          <div class="sec-head">
+            <h2>حمّل Merso Translator دلوقتي</h2>
+          </div>
+          <div class="dl-card">
+            <span class="mark" aria-hidden="true">
+              <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 1 6.5 18H20"/><path d="M8.5 8h7M8.5 11.5h4.5"/></svg>
+            </span>
+            <div>
+              <h3><span class="en">Merso Translator</span> لأندرويد</h3>
+              <div class="dl-meta">
+                <span>الإصدار <b class="ltr">1.0</b></span>
+                <span>الحجم <b class="ltr">60 MB</b></span>
+                <span>أندرويد <b class="ltr">8.0+</b></span>
+              </div>
+              <p style="color:var(--mut); margin:.6rem 0 0; font-size:.95rem">تحميل مباشر من الإصدار الرسمي <span class="ltr">v1.0</span> على <span class="ltr">GitHub</span>.</p>
+            </div>
+            <a class="btn btn-red dl-btn" href="https://github.com/MersoStore/merso-translator/releases/download/v1.0/merso-translate.apk" download>
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m6.5 10.5 5.5 5.5 5.5-5.5"/><path d="M4 20h16"/></svg>
+              تحميل الـ APK
+            </a>
+          </div>
+          <div style="display:flex; flex-wrap:wrap; gap:.8rem; justify-content:center; margin-top:1.4rem">
+            <a class="btn btn-ghost" href="https://youtube.com/@mersostore" target="_blank" rel="noopener noreferrer">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="5.5" width="19" height="13" rx="4"/><path d="m10 9.3 5 2.7-5 2.7z" fill="currentColor" stroke="none"/></svg>
+              قناة اليوتيوب — Merso Gaming
+            </a>
+            <a class="btn btn-ghost" href="https://creators.sa/mersogaming" target="_blank" rel="noopener noreferrer">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-9.3-9A5.4 5.4 0 0 1 12 6.6a5.4 5.4 0 0 1 9.3 4.9c-1.8 4.4-9.3 9-9.3 9Z"/></svg>
+              ادعم القناة
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= INSTALL ================= -->
+      <section id="install" style="padding-top:.6rem">
+        <div class="wrap">
+          <div class="sec-head">
+            <h2>التثبيت في ٣ خطوات</h2>
+          </div>
+          <div class="steps">
+            <div class="step">
+              <div class="num">1</div>
+              <h4>حمّل الملف</h4>
+              <p>دوس «تحميل الـ APK» واستنى لما الـ 60 MB يخلصوا تنزيل على موبايلك.</p>
+            </div>
+            <div class="step">
+              <div class="num">2</div>
+              <h4>اسمح بالتثبيت</h4>
+              <p>افتح الملف، وفعّل «السماح من هذا المصدر» لما أندرويد يطلبها، وبعدين ارجع وكمل.</p>
+            </div>
+            <div class="step">
+              <div class="num">3</div>
+              <h4>افتح واتبع الدليل</h4>
+              <p>دوس «تثبيت» وبعدين «فتح» — والدليل اللي جوه التطبيق هياخدك خطوة بخطوة لحد أول ترجمة.</p>
+            </div>
+          </div>
+          <p style="text-align:center; color:var(--mut); margin:1.2rem 0 0">
+            التطبيق مش على Google Play، عشان كده أندرويد بيطلب إذنك مرة واحدة بس وقت التثبيت.
+          </p>
+        </div>
+      </section>
+
+      <!-- ================= FAQ ================= -->
+      <section id="faq" style="padding-top:.6rem">
+        <div class="wrap">
+          <div class="sec-head">
+            <h2>الأسئلة الشائعة</h2>
+          </div>
+          <div class="faq">
+            <details>
+              <summary>التطبيق مجاني فعلًا؟ ولا فيه اشتراك بعد فترة؟
+                <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 9 7 7 7-7"/></svg>
+              </summary>
+              <div class="ans"><p>أيوه، مجاني بالكامل وبدون أي اشتراك. التطبيق اتعمل أصلًا كبديل مجاني لخدمات ترجمة الألعاب المدفوعة — كل المميزات مفتوحة من أول مرة تفتحه.</p></div>
+            </details>
+            <details>
+              <summary>لازم حساب PSN عشان الريموت بلاي يشتغل؟
+                <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 9 7 7 7-7"/></svg>
+              </summary>
+              <div class="ans"><p>لا، مش لازم. لو جهازك أونلاين وعندك حساب سوني، سجّل دخولك بيه عادي من جوه التطبيق. ولو جهازك معدّل ومش عايز أو مش قادر تدخل على سوني، التطبيق فيه تفعيل وتسجيل وهمي مدمج بيجهّز حسابك المحلي على الجهاز للريموت بلاي من غير حساب PSN خالص.</p></div>
+            </details>
+            <details>
+              <summary>بيشتغل على أي جهاز وأي تلفزيون؟
+                <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 9 7 7 7-7"/></svg>
+              </summary>
+              <div class="ans"><p>التطبيق بيشتغل على الـ PS5 الأونلاين (الرسمي) والمعدّل على حد سواء، وعلى موبايلات أندرويد 8.0 أو أحدث. الترجمة بتظهر على التلفزيون عن طريق صفحة التطبيق في Media Station X — فأي تلفزيون بيفتح Media Station X ينفع. ووضع الكاميرا بيشتغل على أي شاشة أصلًا.</p></div>
+            </details>
+            <details>
+              <summary>إيه الفرق بين وضع الريموت بلاي ووضع الكاميرا؟
+                <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 9 7 7 7-7"/></svg>
+              </summary>
+              <div class="ans"><p>الريموت بلاي بيبث اللعبة جوه التطبيق وبيقرأ الترجمة من البث نفسه، فهو الأدق والأسرع. وضع الكاميرا بيقرأ من تصويرك للشاشة، وميزته إنه بيشتغل على أي مصدر صورة من غير إعدادات ربط.</p></div>
+            </details>
+            <details>
+              <summary>ليه التطبيق مش على Google Play؟
+                <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 9 7 7 7-7"/></svg>
+              </summary>
+              <div class="ans"><p>التطبيق بيتنشر مباشرة من صفحة التحميل الرسمية بتاعته. حمّله من المصدر الرسمي بس عشان تضمن إنها النسخة الأصلية.</p></div>
+            </details>
+            <details>
+              <summary>إزاي أحدّث التطبيق لما ينزل إصدار جديد؟
+                <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 9 7 7 7-7"/></svg>
+              </summary>
+              <div class="ans"><p>حمّل الإصدار الجديد من صفحة التحميل وثبّته فوق القديم على طول — إعداداتك وربط التلفزيون هيفضلوا زي ما هما.</p></div>
+            </details>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- ================= FOOTER ================= -->
+    <footer>
+      <div class="wrap">
+        <div class="foot">
+          <div>
+            <a class="brand" href="#top">
+              <span class="mark" aria-hidden="true">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 1 6.5 18H20"/><path d="M8.5 8h7M8.5 11.5h4.5"/></svg>
+              </span>
+              <span>
+                <b style="font-size:1.15rem"><span class="ltr">Merso Translator</span></b>
+                <span class="sub">ترجمة ألعاب PS5 للعربي</span>
+              </span>
+            </a>
+            <p>تطبيق مجاني لترجمة ألعاب الـ PS5 للعربي أثناء اللعب — ريموت بلاي أو كاميرا، والترجمة على شاشة تلفزيونك.</p>
+          </div>
+          <div class="foot-links">
+            <b>أقسام الصفحة</b>
+            <a href="#features">المميزات</a>
+            <a href="#guide">شرح الاستخدام</a>
+            <a href="#download">تحميل التطبيق</a>
+            <a href="#faq">الأسئلة الشائعة</a>
+          </div>
+          <div class="foot-links">
+            <b>تابعنا وادعمنا</b>
+            <a href="https://youtube.com/@mersostore" target="_blank" rel="noopener noreferrer">قناة اليوتيوب — Merso Gaming</a>
+            <a href="https://creators.sa/mersogaming" target="_blank" rel="noopener noreferrer">صفحة الدعم</a>
+          </div>
+        </div>
+        <div class="licenses">
+          <span>© 2026 Merso Translator</span>
+          <span>مبني على مشاريع مفتوحة المصدر: <span class="ltr">Chiaki (AGPL-3.0)</span> و<span class="ltr">PS5 Account Tools (GPL-3.0)</span></span>
+          <span>الإصدار <span class="ltr">1.0</span> · أندرويد <span class="ltr">8.0+</span></span>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      (function () {
+        // Rotating subtitle demo in the hero phone
+        var pairs = [
+          { en: "We have to move. Now!", ar: "لازم نتحرك… دلوقتي!" },
+          { en: "Stay close. Don't make a sound.", ar: "خليك قريب… ومتعملش صوت." },
+          { en: "This place… it feels familiar.", ar: "المكان ده… حاسس إني شفته قبل كده." },
+          { en: "You can't hide forever.", ar: "مش هتقدر تستخبى على طول." }
+        ];
+        var cap = document.getElementById("heroCap");
+        var capEn = document.getElementById("capEn");
+        var capAr = document.getElementById("capAr");
+        var idx = 0;
+        var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        if (cap && capEn && capAr && !reduceMotion) {
+          setInterval(function () {
+            cap.classList.add("fading");
+            setTimeout(function () {
+              idx = (idx + 1) % pairs.length;
+              capEn.textContent = pairs[idx].en;
+              capAr.textContent = pairs[idx].ar;
+              cap.classList.remove("fading");
+            }, 380);
+          }, 3400);
+        }
+
+        // Highlight the nav tab of the section currently in view
+        var spyLinks = document.querySelectorAll(".nav-links a[data-spy]");
+        if (spyLinks.length && "IntersectionObserver" in window) {
+          var byId = {};
+          spyLinks.forEach(function (a) { byId[a.getAttribute("data-spy")] = a; });
+          var spy = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+              if (entry.isIntersecting) {
+                spyLinks.forEach(function (a) { a.classList.remove("active"); });
+                var link = byId[entry.target.id];
+                if (link) link.classList.add("active");
+              }
+            });
+          }, { rootMargin: "-30% 0px -60% 0px" });
+          ["features", "guide", "download", "faq"].forEach(function (id) {
+            var el = document.getElementById(id);
+            if (el) spy.observe(el);
+          });
+        }
+
+        // Video facade: swap the cover for the real YouTube player on tap,
+        // so the section never sits as an empty black box before playback.
+        var videoCover = document.getElementById("videoCover");
+        if (videoCover) {
+          videoCover.addEventListener("click", function () {
+            var frame = document.createElement("iframe");
+            frame.src = "https://www.youtube.com/embed/AhgKETmy2lc?autoplay=1&rel=0";
+            frame.title = "شرح استخدام Merso Translator — فيديو الشرح على يوتيوب";
+            frame.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+            frame.allowFullscreen = true;
+            frame.setAttribute("referrerpolicy", "strict-origin-when-cross-origin");
+            videoCover.replaceWith(frame);
+            frame.focus();
+          });
+        }
+
+        // Download buttons are direct links to the GitHub Release APK file,
+        // so a tap starts the download immediately with no intermediate page.
+      })();
+    </script>
+  </body>
+</html>
